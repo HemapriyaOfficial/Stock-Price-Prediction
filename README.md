@@ -26,16 +26,19 @@ Include your code here
 ```Python 
 # Define RNN Model
 class RNNModel(nn.Module):
-    # write your code here
+  def __init__(self, input_size=1, hidden_size=64, num_layers=2, output_size=1):
+    super(RNNModel, self).__init__()
+    self.rnn = nn.RNN(input_size, hidden_size, num_layers, batch_first=True)
+    self.fc = nn.Linear(hidden_size, output_size)
 
-
-
-
-
-model =
-criterion =
-optimizer =
-
+  def forward(self, x):
+    out, _ = self.rnn(x)
+    out = self.fc(out[:, -1, :])
+    return out
+    
+model = RNNModel()
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = model.to(device)
 
 # Train the Model
 
@@ -53,11 +56,13 @@ optimizer =
 
 ### True Stock Price, Predicted Stock Price vs time
 
-Include your plot here
+![image](https://github.com/user-attachments/assets/2bbc1f55-d515-46bb-9235-de472b16b7c7)
+
 
 ### Predictions 
 
-Include the predictions on test data
+![image](https://github.com/user-attachments/assets/d5a5dad6-0f56-4717-b348-c32a767b800a)
+
 
 ## Result
 
